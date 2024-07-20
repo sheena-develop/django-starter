@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      POSTGRES_DB: django_learning
+      PORTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  app:
+    build: .
+    container_name: app
+    ports:
+      - "8000:8000"
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./src:/app
+    depends_on:
+      - db
+volumes:
+  postgres_data:
+
